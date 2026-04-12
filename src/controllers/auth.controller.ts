@@ -1,9 +1,9 @@
 import {Request, Response} from 'express'
 import bcrypt from 'bcryptjs'
-import { users } from './models/data'
+import { users } from '../models/data'
 import crypto  from 'crypto'
 import { user } from '../types'
-export class auth{
+export class Auth{
     //i wanna get the login details, verify the password is correct (does this involve unhashing saved password and checking it?) and then allow them to login
  public login = async (req: Request, res: Response) => {
     const {email, password} =  req.body
