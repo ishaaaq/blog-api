@@ -2,8 +2,8 @@ export interface user {
     id: string;
     name: string;
     email: string;
-    password: string;
-    createdAt: Date;
+    passwordHash: string;
+    createdAt: number;
 }
 
 export interface post{
@@ -11,14 +11,14 @@ export interface post{
     title: string;
     description: string;
     authorId: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: number;
+    upnumberdAt: number;
 }
 
 export interface comment{
     id: string;
     body: string;
-    createdAt: Date;
+    createdAt: number;
     postId: post;
     authorId: string;
 }
