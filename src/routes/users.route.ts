@@ -8,6 +8,7 @@ usersRouter.get('/', getAllUsers)
 usersRouter.post('/', createUser)
 usersRouter.put('/:userId', updateUser)
 
+
 usersRouter.use('/:userId/posts', postsRouter)
 
 export default usersRouter
