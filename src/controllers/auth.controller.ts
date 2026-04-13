@@ -4,13 +4,23 @@ import { users } from '../models/data'
 import crypto  from 'crypto'
 import { user } from '../types'
 export class Auth{
-    //i wanna get the login details, verify the password is correct (does this involve unhashing saved password and checking it?) and then allow them to login
+    //i wanna get the login details, find the user, verify the password is correct (does this involve unhashing saved password and checking it?) and then allow them to login
  public login = async (req: Request, res: Response) => {
     const {email, password} =  req.body
     try {
-        
+        const exisitingUser = users.find(user => user.email === email)
+        if(!exisitingUser){
+            return res.status(404).json({message: "No Account exists with this email, Please signup."})
+        }
+
+        const isMatch = await bcrypt.compare(password, exisitingUser.passwordHash)
+        if(!isMatch){
+            return res.status(500).json({message: "Incorrect Password"})
+        }
+        return res.status(200).json({message: "Login Successful!"})
     } catch (error) {
-        
+        console.log("Error registering user:", error)
+        res.status(500).json({message: "Internal Server Error"})
     }
  }
 

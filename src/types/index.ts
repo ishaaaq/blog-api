@@ -12,7 +12,7 @@ export interface post{
     description: string;
     authorId: string;
     createdAt: number;
-    upnumberdAt: number;
+    updatedAt: number;
 }
 
 export interface comment{
