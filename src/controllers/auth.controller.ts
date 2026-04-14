@@ -7,6 +7,9 @@ export class Auth{
     //i wanna get the login details, find the user, verify the password is correct (does this involve unhashing saved password and checking it?) and then allow them to login
  public login = async (req: Request, res: Response) => {
     const {email, password} =  req.body
+    if (!email || !password){
+        return res.status(500).json({message: "Incomplete Details"})
+    }
     try {
         const exisitingUser = users.find(user => user.email === email)
         if(!exisitingUser){
@@ -19,8 +22,8 @@ export class Auth{
         }
         return res.status(200).json({message: "Login Successful!"})
     } catch (error) {
-        console.log("Error registering user:", error)
-        res.status(500).json({message: "Internal Server Error"})
+        console.log("Error logging user:", error)
+      return  res.status(500).json({message: "Internal Server Error1", err: error})
     }
  }
 
