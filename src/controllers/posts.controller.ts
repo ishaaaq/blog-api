@@ -106,7 +106,31 @@ export class Posts{
         }
 
     }
-    public deletePost = async () => {
+    public deletePost = async (req: Request, res: Response) => {
+        const {userId, postId} = req.params
+        const post =  posts.find(post => post.id === postId)
 
+        if(!post){
+            return res.status(400).json({message: "Post dosent exist"})
+        }
+        try {
+            if(post.authorId !== userId){
+                return res.status(400).json({
+                    message: "You can an only delete your own posts!"
+                })
+            }
+            
+
+            const newArray = posts.filter(post => post.id !== postId)
+            posts.splice(0, posts.length, ...newArray)
+            
+            return res.status(200).json({
+                message: "success",
+                deletedPost: post,
+            })
+        } catch (error) {
+            console.log("Error deleting post:", error)
+            return res.status(500).json({Message: "Internal server error"})
+        }
     }
 }
