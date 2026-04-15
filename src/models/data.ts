@@ -1,4 +1,4 @@
-import { post, user } from "../types";
+import { comment, post, user } from "../types";
 
 export let users: user[] = [{
         id: "1c3556e9-f6a8-486f-9598-5ee829dd1132",
@@ -24,4 +24,6 @@ authorId:"1c3556e9-f6a8-486f-9598-5ee829dd1132",
 createdAt:1776206702766, 
 updatedAt:0}
 ]
+
+export let commentsArr: comment[] = []
 
