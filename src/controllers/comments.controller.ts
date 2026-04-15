@@ -1,10 +1,16 @@
 import { Request, Response } from "express"
 import { commentsArr } from "../models/data"
 export class comments{
+    // /posts/id/comments
+    // get all comments for one post
     public getAllComments = async (req: Request, res: Response) => {
+
+        const {postId} = req.params
+        const postComments = commentsArr.filter(c => c.postId == postId)
+
         res.status(200).json({
             message: "success",
-            data: commentsArr
+            data: postComments
         })
     }
     // /posts/id/comments/id

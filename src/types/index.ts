@@ -19,6 +19,6 @@ export interface comment{
     id: string;
     body: string;
     createdAt: number;
-    postId: post;
+    postId: string;
     authorId: string;
 }
