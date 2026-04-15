@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import { comments } from '../controllers/comments.controller'
+import { authMiddleware } from '../middlewares/auth.middleware'
 const commentsRouter = Router({mergeParams: true})
 
 const commentsController = new comments()
@@ -11,7 +12,7 @@ commentsRouter.get('/', commentsController.getAllComments)
 commentsRouter.get('/:commentId', commentsController.getOneComment)
 
 //POST /posts/:id/comments
-commentsRouter.post('/', commentsController.createComment)
+commentsRouter.post('/', authMiddleware, commentsController.createComment)
 
 //PUT posts/:id/comments/:id
 commentsRouter.put('/:commentId', commentsController.updateComment)

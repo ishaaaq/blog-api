@@ -32,8 +32,16 @@ export class comments{
             return res.status(500).json({message: "Internal server error"})
         }
     }
-    public createComment = async () => {
 
+    // /posts/id/comments
+    public createComment = async (req: Request, res: Response) => {
+        const { postId } = req.params
+        // const { user } = req.user
+        try {
+            
+        } catch (error) {
+            
+        }
     }
     public updateComment = async () => {
 
