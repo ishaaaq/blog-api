@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs'
 import { users } from '../models/data'
 import crypto  from 'crypto'
 import { user } from '../types'
+import jwt from 'jsonwebtoken'
+
 export class Auth{
     //i wanna get the login details, find the user, verify the password is correct (does this involve unhashing saved password and checking it?) and then allow them to login
  public login = async (req: Request, res: Response) => {
@@ -20,7 +22,13 @@ export class Auth{
         if(!isMatch){
             return res.status(500).json({message: "Incorrect Password"})
         }
-        return res.status(200).json({message: "Login Successful!"})
+    
+        //create payload and create token, then send back to user
+        const payload = {id: exisitingUser.id, email, password}
+        const token = jwt.sign(payload, process.env.JWT_SECRET!, {expiresIn: '1h'})
+
+
+        return res.status(200).json({message: "Login Successful!", token: token})
     } catch (error) {
         console.log("Error logging user:", error)
       return  res.status(500).json({message: "Internal Server Error1", err: error})
