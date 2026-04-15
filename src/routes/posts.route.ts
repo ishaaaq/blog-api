@@ -9,16 +9,16 @@ const postsController = new Posts();
 postsRouter.get('/', postsController.getAllPosts)
 
 // GET /users/:id/posts/:id
-postsRouter.get('/:id', postsController.getOnePost)
+postsRouter.get('/:postId', postsController.getOnePost)
 
 // POST /users/:id/posts
 postsRouter.post('/', postsController.createPost)
 
 //PUT /users/:id/posts/:id
-postsRouter.put('/:id', postsController.updatePost)
+postsRouter.put('/:postId', postsController.updatePost)
 
 //DELETE /users/:id/posts/:id
-postsRouter.delete('/:id', postsController.deletePost)
+postsRouter.delete('/:postId', postsController.deletePost)
 
 // All requests to /post/:id/comments
 postsRouter.use('/:id/comments', commentsRouter)

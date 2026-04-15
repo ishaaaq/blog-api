@@ -65,7 +65,45 @@ export class Posts{
     }
 
     }
-    public updatePost = async () => {
+    public updatePost = async (req: Request, res: Response) => {
+        const { userId, postId } = req.params
+        const {title, description} = req.body
+        try {
+            if (!postId){
+                return res.status(400).json({message: "post id required"})
+            }
+
+            const postToUpdate = posts.find(post => post.id === postId)
+            if(!postToUpdate){
+                return res.status(500).json({message: "post dosent exist for this id"})
+            }
+
+            if (postToUpdate.authorId !== userId){
+                return res.status(400).json({message: `You have to be the author of a ${postToUpdate.title} in order to edit it!`})
+            }
+
+            const itsIndex = posts.indexOf(postToUpdate)
+            if (!itsIndex) throw new Error("Error finding index")
+
+            const newPost = {
+               ...postToUpdate,
+               title: title,
+               description: description,
+               updatedAt: Date.now()
+           } 
+
+            posts.splice(1, itsIndex, newPost)
+
+            return res.status(201).json({
+                message: "Success updating blog post",
+                updatedPost: newPost,
+                allPosts: posts
+            })
+          
+        } catch (error) {
+            console.log(`Error updating post: ${error}`)
+            return res.status(500).json({error: "Internal Server error"})
+        }
 
     }
     public deletePost = async () => {
