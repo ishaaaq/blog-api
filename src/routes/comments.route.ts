@@ -8,15 +8,15 @@ const commentsController = new comments()
 commentsRouter.get('/', commentsController.getAllComments)
 
 //GET /posts/:id/comments/:id
-commentsRouter.get('/:id', commentsController.getOneComment)
+commentsRouter.get('/:commentId', commentsController.getOneComment)
 
 //POST /posts/:id/comments
 commentsRouter.post('/', commentsController.createComment)
 
 //PUT posts/:id/comments/:id
-commentsRouter.put('/:id', commentsController.updateComment)
+commentsRouter.put('/:commentId', commentsController.updateComment)
 
 //DELETE posts/:id/comments/:id
-commentsRouter.delete('/:id', commentsController.deleteComment)
+commentsRouter.delete('/:commentId', commentsController.deleteComment)
 
 export default commentsRouter
