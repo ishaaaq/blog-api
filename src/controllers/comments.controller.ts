@@ -1,5 +1,7 @@
 import { Request, Response } from "express"
 import { commentsArr } from "../models/data"
+import crypto from 'crypto'
+import { comment } from "../types"
 export class comments{
     // /posts/id/comments
     // get all comments for one post
@@ -34,13 +36,32 @@ export class comments{
     }
 
     // /posts/id/comments
+    // get user in request
     public createComment = async (req: Request, res: Response) => {
-        const { postId } = req.params
-        // const { user } = req.user
-        try {
+
+         try {
+        if(req.user){
             
+            const { postId } = req.params
+            const { body } = req.body
+
+            const newComment: comment = {
+                id: crypto.randomUUID(),
+                body,
+                createdAt: Date.now(),
+                postId: postId as string,
+                authorId: req.user.id
+            }
+
+            commentsArr.push(newComment)
+
+            return res.status(200).json({message: "success", comment: newComment})
+
+        } else {
+            return res.status(401).json({message: "Please login to comment"})
+        }
         } catch (error) {
-            
+            return res.status(500).json({message: "Internal server error"})
         }
     }
     public updateComment = async () => {
