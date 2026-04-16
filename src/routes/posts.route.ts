@@ -21,6 +21,6 @@ postsRouter.put('/:postId', postsController.updatePost)
 postsRouter.delete('/:postId', postsController.deletePost)
 
 // All requests to /post/:id/comments
-postsRouter.use('/:id/comments', commentsRouter)
+postsRouter.use('/:postId/comments', commentsRouter)
 
 export default postsRouter
