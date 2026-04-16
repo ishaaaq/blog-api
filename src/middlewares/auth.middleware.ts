@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express"
 import jwt  from "jsonwebtoken"
-import { user } from "../types"
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
@@ -9,7 +8,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
      try {
     // 1. Get the token (Bearer token) from the header
     const authHeader = req.headers.authorization
-    const token = authHeader && authHeader.split('')[1]
+    const token = authHeader && authHeader.split(' ')[1]
 
     if (!token){
         return res.status(401).json({message: "You are unauthorized"})
@@ -23,6 +22,6 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         
     } catch (error) {
         //thrown error from jwt is caught and this meand the user is forbidden to proceed
-        return res.status(403).json({message: "Invalid token"})
+        return res.status(403).json({message: "Invalid token", error: error})
     }
 }
