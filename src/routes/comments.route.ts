@@ -15,7 +15,7 @@ commentsRouter.get('/:commentId', commentsController.getOneComment)
 commentsRouter.post('/', authMiddleware, commentsController.createComment)
 
 //PUT posts/:id/comments/:id
-commentsRouter.put('/:commentId', commentsController.updateComment)
+commentsRouter.put('/:commentId', authMiddleware, commentsController.updateComment)
 
 //DELETE posts/:id/comments/:id
 commentsRouter.delete('/:commentId', commentsController.deleteComment)
