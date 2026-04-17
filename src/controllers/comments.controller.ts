@@ -105,7 +105,58 @@ export class comments{
             return res.status(500).json("Internal server error")
         }
     }
-    public  deleteComment = async () => {
+    //check the user is authenticated,
+     //check that both postid and comment id exist 
+    // check that both postid and comment id are legit
+    //check that comment belongs to the post
+    //check that the user is authorized to perform the delete
+   //delete comment
+    public  deleteComment = async (req: Request, res: Response) => {
+        const {postId, commentId} = req.params
+        try {
+            //1. check user is authenticated
+          if(!req.user){
+            return res.status(401).json({message: "You must be logged in to delete comment"})
+          }
 
+          //2. check both postid and comment id exist and are real
+          if(!postId || !commentId){
+          return  res.status(400).json({message: "post or comment is missing"})
+          }
+
+          const post = posts.find(p => p.id === postId)
+          const comment = commentsArr.find(c => c.id === commentId)
+
+          //3. check both post and comment exist
+          if(!post || !comment){
+            return res.status(404).json({message: "post or comment dosent exist"})
+          }
+
+          //4. check the comment belongs to the post
+          if (comment.postId !== post.id){
+          return  res.status(404).json({message: "Invalid! comment dosent belong to the selected post"})
+          }
+
+          //5. check the user is authorized to delete
+          if(req.user.id !== comment.authorId || req.user.id == post.authorId){
+            return res.status(403).json({message: "You are unauthorized to perform this action"})
+          }
+          //6. delete comment. since its an array, we create a new array WITHOUT the deleted item
+          //and then point to it as the new array
+          const newCommentsArr = commentsArr.filter(c => c.id !== commentId)
+
+          commentsArr.splice(0, commentsArr.length, ...newCommentsArr)
+
+          return res.json(200).json({
+            message: "success",
+            deletedComment: comment,
+            newCommentsArr
+          })
+
+
+        } catch (error) {
+            console.log("error deleting comment:", error)
+            return res.status(500).json({message: "internal server error"})
+        }
     }
 }
