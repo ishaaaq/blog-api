@@ -8,7 +8,6 @@ const usersController = new Users()
 
 usersRouter.get('/:userId', usersController.getOneUser)
 usersRouter.get('/', usersController.getAllUsers)
-usersRouter.post('/', usersController.createUser)
 usersRouter.put('/:userId', authMiddleware, usersController.updateUser)
 
 
