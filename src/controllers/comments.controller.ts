@@ -138,7 +138,7 @@ export class comments {
             }
 
             //5. check the user is authorized to delete
-            if (req.user.id !== comment.authorId || req.user.id !== post.authorId) {
+            if (req.user.id !== comment.authorId && req.user.id !== post.authorId) {
                 return res.status(403).json({ message: "You are unauthorized to perform this action" })
             }
             //6. delete comment. since its an array, we create a new array WITHOUT the deleted item
