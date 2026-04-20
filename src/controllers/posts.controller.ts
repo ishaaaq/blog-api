@@ -70,7 +70,7 @@ export class Posts {
 
         try {
             if (!req.user) {
-                return res.status(403).json({ message: "You must be logged in to update a post" })
+                return res.status(401).json({ message: "You must be logged in to update a post" })
             }
 
             if (!postId) {
@@ -111,14 +111,18 @@ export class Posts {
 
     }
     public deletePost = async (req: Request, res: Response) => {
-        const { userId, postId } = req.params
+        const { postId } = req.params
         const post = posts.find(post => post.id === postId)
+
+        if (!req.user) {
+            return res.status(401).json({ message: "You must be logged in to update a post" })
+        }
 
         if (!post) {
             return res.status(400).json({ message: "Post dosent exist" })
         }
         try {
-            if (post.authorId !== userId) {
+            if (post.authorId !== req.user?.id) {
                 return res.status(400).json({
                     message: "You can an only delete your own posts!"
                 })
