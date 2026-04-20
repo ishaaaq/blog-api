@@ -1,5 +1,4 @@
 import express from 'express'
-import postsRouter from './posts.route'
 import { Users } from '../controllers/users.controller'
 import { authMiddleware } from '../middlewares/auth.middleware'
 const usersRouter = express.Router()
@@ -10,7 +9,5 @@ usersRouter.get('/:userId', usersController.getOneUser)
 usersRouter.get('/', usersController.getAllUsers)
 usersRouter.put('/:userId', authMiddleware, usersController.updateUser)
 
-
-usersRouter.use('/:userId/posts', postsRouter)
 
 export default usersRouter
