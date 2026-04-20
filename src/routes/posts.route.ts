@@ -1,7 +1,8 @@
-import  {Router} from "express";
+import { Router } from "express";
 import commentsRouter from "./comments.route";
 import { Posts } from "../controllers/posts.controller";
-const postsRouter = Router({mergeParams: true})
+import { authMiddleware } from "../middlewares/auth.middleware";
+const postsRouter = Router({ mergeParams: true })
 
 const postsController = new Posts();
 
@@ -12,13 +13,13 @@ postsRouter.get('/', postsController.getAllPosts)
 postsRouter.get('/:postId', postsController.getOnePost)
 
 // POST /users/:id/posts
-postsRouter.post('/', postsController.createPost)
+postsRouter.post('/', authMiddleware, postsController.createPost)
 
 //PUT /users/:id/posts/:id
-postsRouter.put('/:postId', postsController.updatePost)
+postsRouter.put('/:postId', authMiddleware, postsController.updatePost)
 
 //DELETE /users/:id/posts/:id
-postsRouter.delete('/:postId', postsController.deletePost)
+postsRouter.delete('/:postId', authMiddleware, postsController.deletePost)
 
 // All requests to /post/:id/comments
 postsRouter.use('/:postId/comments', commentsRouter)
