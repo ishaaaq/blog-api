@@ -1,7 +1,7 @@
-import {Router} from 'express'
+import { Router } from 'express'
 import { comments } from '../controllers/comments.controller'
 import { authMiddleware } from '../middlewares/auth.middleware'
-const commentsRouter = Router({mergeParams: true})
+const commentsRouter = Router({ mergeParams: true })
 
 const commentsController = new comments()
 
@@ -18,6 +18,6 @@ commentsRouter.post('/', authMiddleware, commentsController.createComment)
 commentsRouter.put('/:commentId', authMiddleware, commentsController.updateComment)
 
 //DELETE posts/:id/comments/:id
-commentsRouter.delete('/:commentId', commentsController.deleteComment)
+commentsRouter.delete('/:commentId', authMiddleware, commentsController.deleteComment)
 
 export default commentsRouter
