@@ -65,9 +65,14 @@ export class Posts {
 
     }
     public updatePost = async (req: Request, res: Response) => {
-        const { userId, postId } = req.params
+        const { postId } = req.params
         const { title, description } = req.body
+
         try {
+            if (!req.user) {
+                return res.status(403).json({ message: "You must be logged in to update a post" })
+            }
+
             if (!postId) {
                 return res.status(400).json({ message: "post id required" })
             }
@@ -77,7 +82,7 @@ export class Posts {
                 return res.status(500).json({ message: "post dosent exist for this id" })
             }
 
-            if (postToUpdate.authorId !== userId) {
+            if (postToUpdate.authorId !== req.user.id) {
                 return res.status(400).json({ message: `You have to be the author of a ${postToUpdate.title} in order to edit it!` })
             }
 
